@@ -1,0 +1,20 @@
+{
+    "name": "com.unquestionablegames.serializables",
+    "version": "0.1.0",
+    "displayName": "Serializables",
+    "description": "This package supplies serialization wrappers for what would normally be unserializable types.",
+    "documentationUrl": "",
+    "changelogUrl": "",
+    "liscenceUrl": "",
+    "keywords": [
+        "Guid",
+        "Dictionary",
+        "Serialize",
+        "Serialise"
+    ],
+    "author": {
+        "name": "Chris Hargrove",
+        "email": "batteryacid.ch@gmail.com",
+        "url": "http://www.unquestionablegames.com"
+    }
+}
