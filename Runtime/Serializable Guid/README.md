@@ -5,6 +5,8 @@
 The Serializable Guid was created to facilitate the viewing of a Guid in the Inspector.
 </br>
 It allows for the viewing of the Guid as well as an in Inspector way to generate a new Guid or replace an existing one.
+<br>
+<img width="514" alt="Screenshot 2021-07-28 at 23 14 56" src="https://user-images.githubusercontent.com/24227709/127403144-fdb1bfae-506c-4930-999c-5a5348792890.png">
 
 ## Usage
 
@@ -24,7 +26,14 @@ public SerializableGuid(uint a, ushort b, ushort c, byte d, byte e, byte f, byte
 
 ### Conversion
 
-To allow for the best possible user experience the SerializedGuid allows for implicitly converting to and from a normal Syste.Guid and back again.
+To allow for the best possible user experience the SerializedGuid allows for implicitly converting to and from a normal System.Guid and back again.
+
+```c#
+Guid guid = Guid.NewGuid();
+SerializableGuid serialized = guid;
+Guid andBackAgain = serialized;
+```
+
 
 ### Other Functionality
 
