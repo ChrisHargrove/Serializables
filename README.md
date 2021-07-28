@@ -5,6 +5,7 @@
 [![GitHub Issues](https://img.shields.io/github/issues/ChrisHargrove/Serializables?style=flat-square)](https://github.com/ChrisHargrove/Serializables/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ChrisHargrove/Serializables?style=flat-square)](https://github.com/ChrisHargrove/Serializables/pulls)
 [![License](https://img.shields.io/github/license/ChrisHargrove/Serializables?style=flat-square)](/LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/ChrisHargrove/Serializables/total?style=flat-square)](https://github.com/ChrisHargrove/Serializables/releases)
 
 </div>
 
