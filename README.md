@@ -51,8 +51,8 @@ To install the package into your Unity project there are 3 possible routes:
 
 ## 🎈 Current Serializable Types <a name="serializable_types"></a>
 
-- Serializable Guid
-- Serializable Dictionary (with List&lt;T&gt; as value.)
+- [Serializable Guid](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Guid)
+- [Serializable Dictionary](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Dictionary) (with List&lt;T&gt; as value.)
 
 ## 📚 Contributing <a name = "contributing"></a>
 
