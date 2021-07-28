@@ -245,8 +245,11 @@ namespace BatteryAcid.Serializables.Editor
                 icon = Styles.InfoIcon;
             }
 
-            iconPosition.size = size;
-            GUI.Label(iconPosition, icon);
+            if (icon != null)
+            {
+                iconPosition.size = size;
+                GUI.Label(iconPosition, icon);
+            }
         }
 
         private void InsertConflict(SerializedProperty keys, SerializedProperty values, SerializableDictionaryConflict conflict)
