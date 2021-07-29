@@ -5,9 +5,9 @@ namespace BatteryAcid.Serializables.Editor
     /// <summary>
     /// Class that helps with using a SerializedProperty as a key value in a dictionary.
     /// </summary>
-    public struct SerializableDictionaryPropertyId
+    public struct SerializablePropertyId
     {
-        public SerializableDictionaryPropertyId(SerializedProperty property)
+        public SerializablePropertyId(SerializedProperty property)
         {
             Instance = property.serializedObject.targetObject;
             Path = property.propertyPath;

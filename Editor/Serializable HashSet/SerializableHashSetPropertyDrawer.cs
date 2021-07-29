@@ -1,14 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
-using System.Reflection;
 using System;
+using System.Reflection;
 
 namespace BatteryAcid.Serializables.Editor
 {
-
-    [CustomPropertyDrawer(typeof(SerializableDictionaryBase), true)]
-    public class SerializableDictionaryPropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SerializableHashSetBase), true)]
+    public class SerializableHashSetPropertyDrawer : PropertyDrawer
     {
         private static class Styles
         {
@@ -51,7 +51,7 @@ namespace BatteryAcid.Serializables.Editor
         private Dictionary<SerializedPropertyType, PropertyInfo> PropertyTypeInfos;
         private int ElementToRemoveIndex { get; set; } = -1;
 
-        public SerializableDictionaryPropertyDrawer()
+        public SerializableHashSetPropertyDrawer()
         {
             Type serializedPropertyType = typeof(SerializedProperty);
             PropertyTypeInfos = new Dictionary<SerializedPropertyType, PropertyInfo>();
@@ -68,22 +68,16 @@ namespace BatteryAcid.Serializables.Editor
             float totalHeight = EditorGUIUtility.singleLineHeight;
             if (property.isExpanded)
             {
-                SerializedProperty keys = property.FindPropertyRelative("keys");
                 SerializedProperty values = property.FindPropertyRelative("values");
 
-                for (int i = 0; i < keys.arraySize; i++)
+                for (int i = 0; i < values.arraySize; i++)
                 {
-                    SerializedProperty key = keys.GetArrayElementAtIndex(i);
                     SerializedProperty value = values.GetArrayElementAtIndex(i).FindPropertyRelative("Value");
-
-                    float keyHeight = EditorGUI.GetPropertyHeight(key);
-                    float valueHeight = EditorGUI.GetPropertyHeight(value);
-                    float lineHeight = Mathf.Max(keyHeight, valueHeight);
-                    totalHeight += lineHeight;
+                    totalHeight += EditorGUI.GetPropertyHeight(value, value.isArray);
                 }
                 totalHeight += 5;
 
-                SerializableDictionaryConflict conflict = GetConflict(property);
+                SerializableConflict conflict = GetConflict(property);
                 if (conflict.Index != -1)
                 {
                     totalHeight += conflict.LineHeight;
@@ -94,121 +88,143 @@ namespace BatteryAcid.Serializables.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            SerializedProperty keys = property.FindPropertyRelative("keys");
             SerializedProperty values = property.FindPropertyRelative("values");
 
-            bool hasEnumKeys = keys.arraySize != 0 && keys.GetArrayElementAtIndex(0).propertyType == SerializedPropertyType.Enum;
-
-            //Check for any conflicting keys if we have a conflict
-            //then add it back into the serialized arrays.
-            SerializableDictionaryConflict conflict = GetConflict(property);
-            InsertConflict(keys, values, conflict);
+            SerializableConflict conflict = GetConflict(property);
+            InsertConflict(values, conflict);
 
             label = EditorGUI.BeginProperty(position, label, property);
-
             Rect foldout = GetNextPropertyRect(ref position);
             if (property.isExpanded = EditorGUI.Foldout(foldout, property.isExpanded, label))
             {
                 Rect plusRect = new Rect(foldout.x + (foldout.width - EditorGUIUtility.singleLineHeight), foldout.y, EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight);
-                if (!hasEnumKeys && GUI.Button(plusRect, Styles.PlusIcon, Styles.Button))
+                if (!conflict.IsConflicting && GUI.Button(plusRect, Styles.PlusIcon, Styles.Button))
                 {
-                    keys.arraySize++;
-                    values.arraySize = keys.arraySize;
+                    values.arraySize++;
                 }
 
                 int indentLevel = EditorGUI.indentLevel;
                 EditorGUI.indentLevel = indentLevel + 1;
 
-                for (int i = 0; i < keys.arraySize; i++)
+                for (int i = 0; i < values.arraySize; i++)
                 {
-                    DrawKeyValuePair(ref position, keys, values, hasEnumKeys, conflict, i);
+                    DrawValueProperty(ref position, values, conflict, i);
                 }
 
-                DeleteOutstandingElement(keys, values);
+                DeleteOutstandingElement(values);
                 conflict.Clear();
-                CheckAndSaveConflict(keys, values, conflict);
+                CheckAndSaveConflict(values, conflict);
                 EditorGUI.indentLevel = indentLevel;
             }
             EditorGUI.EndProperty();
         }
 
-        private void CheckAndSaveConflict(SerializedProperty keys, SerializedProperty values, SerializableDictionaryConflict conflict)
+        private void CheckAndSaveConflict(SerializedProperty values, SerializableConflict conflict)
         {
-            int count = keys.arraySize;
+            int count = values.arraySize;
             for (int i = 0; i < count; i++)
             {
-                SerializedProperty key1 = keys.GetArrayElementAtIndex(i);
-                object key1Value = GetPropertyValue(key1);
+                SerializedProperty value1 = values.GetArrayElementAtIndex(i);
+                object value1value = GetPropertyValue(value1.FindPropertyRelative("Value"));
 
-                if (key1 == null)
+                if (value1value == null)
                 {
-                    SerializedProperty value = values.GetArrayElementAtIndex(i);
-                    SaveConflict(key1, value, i, -1, conflict);
+                    SaveConflict(value1, i, -1, conflict);
                     DeleteArrayElementAtIndex(values, i);
-                    DeleteArrayElementAtIndex(keys, i);
                     break;
                 }
 
                 for (int j = i + 1; j < count; j++)
                 {
-                    SerializedProperty key2 = keys.GetArrayElementAtIndex(j);
-                    object key2Value = GetPropertyValue(key2);
+                    SerializedProperty value2 = values.GetArrayElementAtIndex(j);
+                    object value2value = GetPropertyValue(value2.FindPropertyRelative("Value"));
 
-                    if (ComparePropertyValues(key1Value, key2Value))
+                    if (ComparePropertyValues(value1value, value2value))
                     {
-                        SerializedProperty value = values.GetArrayElementAtIndex(j);
-                        SaveConflict(key2, value, j, i, conflict);
-                        DeleteArrayElementAtIndex(keys, j);
+                        SaveConflict(value2, j, i, conflict);
                         DeleteArrayElementAtIndex(values, j);
-
                         return;
                     }
                 }
             }
         }
 
-        private void DeleteOutstandingElement(SerializedProperty keys, SerializedProperty values)
+        private bool ComparePropertyValues(object value1, object value2)
+        {
+            if (value1 is Dictionary<string, object> dictionary1 && value2 is Dictionary<string, object> dictionary2)
+                return CompareDictionaries(dictionary1, dictionary2);
+            else
+                return object.Equals(value1, value2);
+        }
+
+        private bool CompareDictionaries(Dictionary<string, object> dictionary1, Dictionary<string, object> dictionary2)
+        {
+            if (dictionary1.Count != dictionary2.Count)
+                return false;
+
+            foreach (KeyValuePair<string, object> kvp in dictionary1)
+            {
+                string key1 = kvp.Key;
+                object value1 = kvp.Value;
+
+                if (!dictionary2.TryGetValue(key1, out object value2))
+                    return false;
+
+                if (!ComparePropertyValues(value1, value2))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private void SaveConflict(SerializedProperty value, int index, int otherIndex, SerializableConflict conflict)
+        {
+            conflict.Value = GetPropertyValue(value);
+            conflict.LineHeight = (float)EditorGUI.GetPropertyHeight(value);
+            conflict.Index = index;
+            conflict.OtherIndex = otherIndex;
+            conflict.IsValueExpanded = value.isExpanded;
+        }
+
+        private Rect GetNextPropertyRect(ref Rect position, SerializedProperty property = null)
+        {
+            float height = property == null ? EditorGUIUtility.singleLineHeight : EditorGUI.GetPropertyHeight(property);
+            Rect r = new Rect(position.xMin, position.yMin, position.width, height);
+            float h = height + 1f;
+            position = new Rect(position.xMin, position.yMin + h, position.width, position.height = h);
+            return r;
+        }
+
+        private void DeleteOutstandingElement(SerializedProperty values)
         {
             if (ElementToRemoveIndex != -1)
             {
                 DeleteArrayElementAtIndex(values, ElementToRemoveIndex);
-                DeleteArrayElementAtIndex(keys, ElementToRemoveIndex);
                 ElementToRemoveIndex = -1;
             }
         }
 
-        private void DrawValueProperty(Rect rect, SerializedProperty property)
+        private void DeleteArrayElementAtIndex(SerializedProperty arrayProperty, int index)
         {
-            EditorGUI.PropertyField(rect, property, GUIContent.none, property.isArray);
+            SerializedProperty property = arrayProperty.GetArrayElementAtIndex(index);
+            if (property.propertyType == SerializedPropertyType.ObjectReference)
+            {
+                property.objectReferenceValue = null;
+            }
+            arrayProperty.DeleteArrayElementAtIndex(index);
         }
 
-        private void DrawKeyValuePair(ref Rect position, SerializedProperty keys, SerializedProperty values, bool hasEnumKeys, SerializableDictionaryConflict conflict, int i)
+        private void DrawValueProperty(ref Rect position, SerializedProperty values, SerializableConflict conflict, int i)
         {
-            SerializedProperty key = keys.GetArrayElementAtIndex(i);
             SerializedProperty value = values.GetArrayElementAtIndex(i).FindPropertyRelative("Value");
 
             Rect r = GetNextPropertyRect(ref position, value);
-            float w0 = EditorGUIUtility.labelWidth;
-            float w1 = r.width - w0 - EditorGUIUtility.singleLineHeight;
-            float indentOffset = value.isArray ? 0 : 13f; //Puts the value field in correct start location ... 🤦‍♂️
-
-            Rect keyRect = new Rect(r.xMin + 5, r.yMin, w0 - 5, EditorGUI.GetPropertyHeight(key));
-
-            Rect valueRect = hasEnumKeys ? new Rect(keyRect.xMax - indentOffset, r.yMin, w1 - 5 + EditorGUIUtility.singleLineHeight + indentOffset, EditorGUI.GetPropertyHeight(value)) : new Rect(keyRect.xMax - indentOffset, r.yMin, w1 - 5 + indentOffset, EditorGUI.GetPropertyHeight(value));
+            Rect valueRect = new Rect(r.xMin + 5, r.yMin, position.width - EditorGUIUtility.singleLineHeight - 10f, EditorGUI.GetPropertyHeight(value));
             Rect trashRect = new Rect(valueRect.xMax + 5, r.yMin, EditorGUIUtility.singleLineHeight, r.height);
 
-            if (hasEnumKeys)
-            {
-                EditorGUI.LabelField(keyRect, key.enumDisplayNames[key.intValue]);
-            }
-            else
-            {
-                EditorGUI.PropertyField(keyRect, key, GUIContent.none, false);
-            }
+            EditorGUI.PropertyField(valueRect, value, GUIContent.none, value.isArray);
 
-            DrawValueProperty(valueRect, value);
-
-            if (!hasEnumKeys && GUI.Button(trashRect, Styles.TrashIcon, Styles.Button))
+            if (GUI.Button(trashRect, Styles.TrashIcon, Styles.Button))
             {
                 ElementToRemoveIndex = i;
             }
@@ -216,7 +232,7 @@ namespace BatteryAcid.Serializables.Editor
             DrawConflictIcon(r, i, conflict);
         }
 
-        private static void DrawConflictIcon(Rect position, int index, SerializableDictionaryConflict conflict)
+        private static void DrawConflictIcon(Rect position, int index, SerializableConflict conflict)
         {
             Rect iconPosition = position;
             GUIContent icon = null;
@@ -245,32 +261,7 @@ namespace BatteryAcid.Serializables.Editor
             }
         }
 
-        private void InsertConflict(SerializedProperty keys, SerializedProperty values, SerializableDictionaryConflict conflict)
-        {
-            if (conflict.Index != -1)
-            {
-                keys.InsertArrayElementAtIndex(conflict.Index);
-                SerializedProperty key = keys.GetArrayElementAtIndex(conflict.Index);
-                SetPropertyValue(key, conflict.Key);
-                key.isExpanded = conflict.IsKeyExpanded;
-
-                values.InsertArrayElementAtIndex(conflict.Index);
-                SerializedProperty value = values.GetArrayElementAtIndex(conflict.Index);
-                SetPropertyValue(value, conflict.Value);
-                value.isExpanded = conflict.IsValueExpanded;
-            }
-        }
-
-        private Rect GetNextPropertyRect(ref Rect position, SerializedProperty property = null)
-        {
-            float height = property == null ? EditorGUIUtility.singleLineHeight : EditorGUI.GetPropertyHeight(property);
-            Rect r = new Rect(position.xMin, position.yMin, position.width, height);
-            float h = height + 1f;
-            position = new Rect(position.xMin, position.yMin + h, position.width, position.height = h);
-            return r;
-        }
-
-        private SerializableDictionaryConflict GetConflict(SerializedProperty property)
+        private SerializableConflict GetConflict(SerializedProperty property)
         {
             SerializablePropertyId propertyId = new SerializablePropertyId(property);
             if (!ConflictDictionary.TryGetValue(propertyId, out SerializableDictionaryConflict conflict))
@@ -279,6 +270,17 @@ namespace BatteryAcid.Serializables.Editor
                 ConflictDictionary.Add(propertyId, conflict);
             }
             return conflict;
+        }
+
+        private void InsertConflict(SerializedProperty values, SerializableConflict conflict)
+        {
+            if (conflict.Index != -1)
+            {
+                values.InsertArrayElementAtIndex(conflict.Index);
+                SerializedProperty value = values.GetArrayElementAtIndex(conflict.Index);
+                SetPropertyValue(value, conflict.Value);
+                value.isExpanded = conflict.IsValueExpanded;
+            }
         }
 
         private void SetPropertyValue(SerializedProperty property, object value)
@@ -363,58 +365,6 @@ namespace BatteryAcid.Serializables.Editor
                 } while (iterator.Next(false) && iterator.propertyPath != end.propertyPath);
             }
             return dict;
-        }
-
-        private void SaveConflict(SerializedProperty key, SerializedProperty value, int index, int otherIndex, SerializableDictionaryConflict conflict)
-        {
-            conflict.Key = GetPropertyValue(key);
-            conflict.Value = GetPropertyValue(value);
-            float keyPropertyHeight = EditorGUI.GetPropertyHeight(key);
-            float valuePropertyHeight = EditorGUI.GetPropertyHeight(value);
-            float lineHeight = Mathf.Max(keyPropertyHeight, valuePropertyHeight);
-            conflict.LineHeight = lineHeight;
-            conflict.Index = index;
-            conflict.OtherIndex = otherIndex;
-            conflict.IsKeyExpanded = key.isExpanded;
-            conflict.IsValueExpanded = value.isExpanded;
-        }
-
-        private void DeleteArrayElementAtIndex(SerializedProperty arrayProperty, int index)
-        {
-            SerializedProperty property = arrayProperty.GetArrayElementAtIndex(index);
-            if (property.propertyType == SerializedPropertyType.ObjectReference)
-            {
-                property.objectReferenceValue = null;
-            }
-            arrayProperty.DeleteArrayElementAtIndex(index);
-        }
-
-        private bool ComparePropertyValues(object value1, object value2)
-        {
-            if (value1 is Dictionary<string, object> dictionary1 && value2 is Dictionary<string, object> dictionary2)
-                return CompareDictionaries(dictionary1, dictionary2);
-            else
-                return object.Equals(value1, value2);
-        }
-
-        private bool CompareDictionaries(Dictionary<string, object> dictionary1, Dictionary<string, object> dictionary2)
-        {
-            if (dictionary1.Count != dictionary2.Count)
-                return false;
-
-            foreach (KeyValuePair<string, object> kvp in dictionary1)
-            {
-                string key1 = kvp.Key;
-                object value1 = kvp.Value;
-
-                if (!dictionary2.TryGetValue(key1, out object value2))
-                    return false;
-
-                if (!ComparePropertyValues(value1, value2))
-                    return false;
-            }
-
-            return true;
         }
     }
 }
