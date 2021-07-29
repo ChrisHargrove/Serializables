@@ -27,7 +27,7 @@ namespace BatteryAcid.Serializables.Editor
                 => EditorGUIUtility.IconContent(iconName, tooltip);
         }
 
-        private Dictionary<SerializableDictionaryPropertyId, SerializableDictionaryConflict> ConflictDictionary = new Dictionary<SerializableDictionaryPropertyId, SerializableDictionaryConflict>();
+        private Dictionary<SerializablePropertyId, SerializableDictionaryConflict> ConflictDictionary = new Dictionary<SerializablePropertyId, SerializableDictionaryConflict>();
         private readonly Dictionary<SerializedPropertyType, string> PropertyTypeNames = new Dictionary<SerializedPropertyType, string>()
         {
             { SerializedPropertyType.Integer, "intValue" },
@@ -179,14 +179,7 @@ namespace BatteryAcid.Serializables.Editor
 
         private void DrawValueProperty(Rect rect, SerializedProperty property)
         {
-            if (!property.isArray)
-            {
-                EditorGUI.PropertyField(rect, property, GUIContent.none, false);
-            }
-            else
-            {
-                EditorGUI.PropertyField(rect, property, GUIContent.none, true);
-            }
+            EditorGUI.PropertyField(rect, property, GUIContent.none, property.isArray);
         }
 
         private void DrawKeyValuePair(ref Rect position, SerializedProperty keys, SerializedProperty values, bool hasEnumKeys, SerializableDictionaryConflict conflict, int i)
@@ -279,7 +272,7 @@ namespace BatteryAcid.Serializables.Editor
 
         private SerializableDictionaryConflict GetConflict(SerializedProperty property)
         {
-            SerializableDictionaryPropertyId propertyId = new SerializableDictionaryPropertyId(property);
+            SerializablePropertyId propertyId = new SerializablePropertyId(property);
             if (!ConflictDictionary.TryGetValue(propertyId, out SerializableDictionaryConflict conflict))
             {
                 conflict = new SerializableDictionaryConflict();
