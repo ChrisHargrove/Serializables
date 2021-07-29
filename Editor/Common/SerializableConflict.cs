@@ -11,7 +11,7 @@ namespace BatteryAcid.Serializables.Editor
 
         public bool IsConflicting => Index != -1 || OtherIndex != -1;
 
-        public void Clear()
+        public virtual void Clear()
         {
             Value = null;
             Index = -1;
@@ -29,7 +29,7 @@ namespace BatteryAcid.Serializables.Editor
         public object Key { get; set; }
         public bool IsKeyExpanded { get; set; }
 
-        public void Clear()
+        public override void Clear()
         {
             base.Clear();
             Key = null;
