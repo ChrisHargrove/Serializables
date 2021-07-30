@@ -22,7 +22,6 @@
 - [Current Serializable Types](#serializable_types)
 - [Contributing](#contributing)
 - [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
 
 ## 🧐 About <a name = "about"></a>
@@ -54,6 +53,10 @@ To install the package into your Unity project there are 3 possible routes:
 
 - [Serializable Guid](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Guid)
 - [Serializable Dictionary](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Dictionary) (with List&lt;T&gt; as value.)
+- [Serializable HashSet](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20HashSet)
+- [Serializable Stack](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Stack)
+- [Serializable Queue](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Queue)
+- [Serializable Uri](https://github.com/ChrisHargrove/Serializables/tree/main/Runtime/Serializable%20Uri)
 
 ## 📚 Contributing <a name = "contributing"></a>
 
@@ -71,5 +74,3 @@ To setup a development environment to start contributing follow the following st
 ## ✍️ Authors <a name = "authors"></a>
 
 - [@Chris Hargrove](https://github.com/ChrisHargrove)
-
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.

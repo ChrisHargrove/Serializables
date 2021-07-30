@@ -10,6 +10,23 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Released]
 
+## [0.2.0] - 2021-07-30
+
+### Added
+
+- SerializableQueue that allows for C# Queue&lt;T&gt; to be seen in the Unity Inspector.
+- SerializableQueuePropertyDrawer that defines how to draw the SerializableQueue.
+- SerializableStack that allows for C# Stack&lt;T&gt; to be seen in the Unity Inspector.
+- SerializableStackPropertyDrawer that defines how to draw the SerializableStack.
+- SerializableHashSet that allows for C# HashSet&lt;T&gt; to be seen in the Unity Inspector.
+- SerializableHashSetPropertyDrawer that defines how to draw the SerializableHashSet.
+- SerializableUri that allows for C# Uri to be seen in the Unity Inspector.
+- SerializableUriPropertyDrawer that defines how to draw the SerializableUri.
+
+### Changed
+
+- Changed the SerializableDictionaryConflict to inherit from SerializableConflict base class that can be used for other data structures that can have conflicts that do not use a key.
+
 ## [0.1.0] - 2021-07-28
 
 ### Added
@@ -30,7 +47,6 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 <!-- Versions -->
-[Unreleased]: https://github.com/Author/Repository/compare/v1.0.0...HEAD
-[Released]: https://github.com/Author/Repository/releases
-[0.0.2]: https://github.com/Author/Repository/compare/v0.0.1..v0.0.2
-[0.0.1]: https://github.com/Author/Repository/releases/v0.0.1
+[Released]: https://github.com/ChrisHargrove/Serializables/releases
+[0.2.0]: https://github.com/ChrisHargrove/Serializables/releases/v0.2.0
+[0.1.0]: https://github.com/ChrisHargrove/Serializables/releases/v0.1.0
