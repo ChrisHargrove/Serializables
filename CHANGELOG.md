@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+### Fixed
+
+- SerializableGuid now no longer tries to serialize a null or empty guidString value on deserialization. (Typically when being used as a Key value in another structure).
+- SerializableGuidPropertyDrawer no longer draws the properties label if it is null or empty, this now allows it to be properly visualised when its used as a key in other data structures.
+
 ---
 
 ## [Released]

@@ -24,14 +24,29 @@ namespace BatteryAcid.Serializables.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             float singleLine = EditorGUIUtility.singleLineHeight;
-            float w0 = EditorGUIUtility.labelWidth;
-            float w1 = position.width - w0;
 
-            Rect labelRect = new Rect(position.xMin, position.yMin, w0, singleLine);
-            Rect padLockRect = new Rect(labelRect.xMax - singleLine, labelRect.yMin + 1.5f, singleLine, singleLine);
-            Rect fieldRect = new Rect(labelRect.xMax, position.yMin, w1, singleLine);
+            Rect labelRect;
+            Rect padLockRect;
+            Rect fieldRect;
 
-            EditorGUI.LabelField(labelRect, label);
+            if (!string.IsNullOrEmpty(label.text))
+            {
+                float w0 = EditorGUIUtility.labelWidth;
+                float w1 = position.width - w0;
+                labelRect = new Rect(position.xMin, position.yMin, w0, singleLine);
+                padLockRect = new Rect(labelRect.xMax - singleLine, labelRect.yMin + 1.5f, singleLine, singleLine);
+                fieldRect = new Rect(labelRect.xMax, position.yMin, w1, singleLine);
+                EditorGUI.LabelField(labelRect, label);
+            }
+            else
+            {
+                padLockRect = new Rect(position.xMin, position.yMin + 1.5f, singleLine, singleLine);
+                fieldRect = new Rect(position.xMin + 5f, position.yMin, position.width - 5f, singleLine);
+
+                Debug.Log($"Padlock X Start {padLockRect.xMin}");
+                Debug.Log($"Field X Start {fieldRect.xMin}");
+            }
+
             IsLocked = GUI.Toggle(padLockRect, IsLocked, GUIContent.none, Styles.PadLock);
 
             using (EditorGUI.DisabledGroupScope disabled = new EditorGUI.DisabledGroupScope(true))
