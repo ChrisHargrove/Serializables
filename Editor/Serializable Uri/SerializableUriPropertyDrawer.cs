@@ -76,6 +76,7 @@ namespace BatteryAcid.Serializables.Editor
             {
                 Debug.LogError("Failed to create Uri, incorrect Uri String.");
             }
+            EditorGUI.EndProperty();
         }
 
         private void ExtractUriParts(string uriString)

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 
 ## [Unreleased]
 
+### Added
+
+- SerializableDateTime that allows for the C# System.DateTime to be serialized/deserialized in the Inspector.
+- SerializableDateTimePropertyDrawer that defines how to draw the SerializableDateTime in editor. Allows for viewing only no data modification.
+
+### Changed
+
+- Added missing call to EndProperty in SerializableUriPropertyDrawer.
+
+### Fixed
+
+- SerializableGuid now no longer tries to serialize a null or empty guidString value on deserialization. (Typically when being used as a Key value in another structure).
+- SerializableGuidPropertyDrawer no longer draws the properties label if it is null or empty, this now allows it to be properly visualised when its used as a key in other data structures.
+
 ---
 
 ## [Released]

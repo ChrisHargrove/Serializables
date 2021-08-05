@@ -53,6 +53,10 @@ namespace BatteryAcid.Serializables
 
         public void OnAfterDeserialize()
         {
+            if(string.IsNullOrEmpty(guidString))
+            {
+                return;
+            }
             guid = Guid.Parse(guidString);
         }
 
