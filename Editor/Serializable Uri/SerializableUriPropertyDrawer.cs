@@ -37,7 +37,7 @@ namespace BatteryAcid.Serializables.Editor
 
             label = EditorGUI.BeginProperty(position, label, property);
             Rect uriRect = new Rect(position.xMin + EditorGUIUtility.labelWidth + 2f, position.yMin, position.width - EditorGUIUtility.labelWidth, EditorGUIUtility.singleLineHeight);
-            Rect foldout = GetNextPropertyRect(ref position);
+            Rect foldout = Utilities.GetNextPropertyRect(ref position);
             int indentLevel = EditorGUI.indentLevel;
             if (property.isExpanded = EditorGUI.Foldout(foldout, property.isExpanded, label))
             {
@@ -45,23 +45,23 @@ namespace BatteryAcid.Serializables.Editor
                 EditorGUI.indentLevel = indentLevel + 1;
                 if (!string.IsNullOrEmpty(Scheme))
                 {
-                    EditorGUI.DelayedTextField(GetNextPropertyRect(ref position), "Scheme", Scheme);
+                    EditorGUI.DelayedTextField(Utilities.GetNextPropertyRect(ref position), "Scheme", Scheme);
                 }
                 if (!string.IsNullOrEmpty(Authority))
                 {
-                    EditorGUI.DelayedTextField(GetNextPropertyRect(ref position), "Authority", Authority);
+                    EditorGUI.DelayedTextField(Utilities.GetNextPropertyRect(ref position), "Authority", Authority);
                 }
                 if (!string.IsNullOrEmpty(Path))
                 {
-                    EditorGUI.DelayedTextField(GetNextPropertyRect(ref position), "Path", Path);
+                    EditorGUI.DelayedTextField(Utilities.GetNextPropertyRect(ref position), "Path", Path);
                 }
                 if (!string.IsNullOrEmpty(Query))
                 {
-                    EditorGUI.DelayedTextField(GetNextPropertyRect(ref position), "Query", Query);
+                    EditorGUI.DelayedTextField(Utilities.GetNextPropertyRect(ref position), "Query", Query);
                 }
                 if (!string.IsNullOrEmpty(Fragment))
                 {
-                    EditorGUI.DelayedTextField(GetNextPropertyRect(ref position), "Fragment", Fragment);
+                    EditorGUI.DelayedTextField(Utilities.GetNextPropertyRect(ref position), "Fragment", Fragment);
                 }
                 GUI.enabled = true;
 
@@ -87,15 +87,6 @@ namespace BatteryAcid.Serializables.Editor
             Path = uri.AbsolutePath;
             Query = uri.Query;
             Fragment = uri.Fragment;
-        }
-
-        private Rect GetNextPropertyRect(ref Rect position, SerializedProperty property = null)
-        {
-            float height = property == null ? EditorGUIUtility.singleLineHeight : EditorGUI.GetPropertyHeight(property);
-            Rect r = new Rect(position.xMin, position.yMin, position.width, height);
-            float h = height + 1f;
-            position = new Rect(position.xMin, position.yMin + h, position.width, position.height = h);
-            return r;
         }
     }
 }
