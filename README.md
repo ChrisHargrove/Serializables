@@ -1,6 +1,6 @@
 <h1 align="center">Serializables</h1>
 
-<div align="center">
+<div align="center"> 
 
 [![GitHub Issues](https://img.shields.io/github/issues/ChrisHargrove/Serializables?style=flat-square)](https://github.com/ChrisHargrove/Serializables/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ChrisHargrove/Serializables?style=flat-square)](https://github.com/ChrisHargrove/Serializables/pulls)
