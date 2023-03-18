@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,6 +24,37 @@ namespace BatteryAcid.Serializables.Editor
                     DeleteArrayElementAtIndex(values, i);
                     DeleteArrayElementAtIndex(keys, i);
                     break;
+                }
+
+                //TODO: See if there is a better way to do this...
+                if (key1Value is Dictionary<string, object> key1Dict)
+                {
+                    List<Dictionary<string, object>> conflictingGenerics = conflictSet.OfType<Dictionary<string, object>>().Where(cs => cs.Count == key1Dict.Count).ToList();
+                    bool match = false;
+                    for (int j = 0; j < conflictingGenerics.Count; j++)
+                    {
+                        match = true;
+                        foreach (var key in conflictingGenerics[j].Keys)
+                        {
+                            if (key1Dict.TryGetValue(key, out object value) && value.GetHashCode() != conflictingGenerics[j][key].GetHashCode())
+                            {
+                                match = false;
+                                break;
+                            }
+                        }
+                        if (match)
+                        {
+                            SerializedProperty value = values.GetArrayElementAtIndex(i);
+                            SaveConflict(key1, value, i, indexRetrieving.IndexOf(conflictingGenerics[j]), conflict);
+                            DeleteArrayElementAtIndex(values, i);
+                            DeleteArrayElementAtIndex(keys, i);
+                            break;
+                        }
+                    }
+                    if (match)
+                    {
+                        break;
+                    }
                 }
 
                 if (!conflictSet.Add(key1Value))
