@@ -1,10 +1,6 @@
 using System.Text.RegularExpressions;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
@@ -63,7 +59,7 @@ namespace BatteryAcid.Serializables.Editor
         private void LockButtonToggle()
         {
             IsLocked = !IsLocked;
-            ButtonHolder.Display(IsLocked);
+            ButtonHolder.Display(!IsLocked);
             LockButton.SetText(IsLocked ? "Unlock" : "Lock");
         }
 
