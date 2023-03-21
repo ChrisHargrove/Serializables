@@ -35,6 +35,13 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T SetMinHeight<T>(this T element, float minHeight)
+            where T : VisualElement
+        {
+            element.style.minHeight = new StyleLength(minHeight);
+            return element;
+        }
+
         public static T BindProp<T>(this T element, SerializedProperty property)
             where T : IBindable
         {
@@ -53,6 +60,13 @@ namespace BatteryAcid.Serializables.Editor
             where T : TextInputBaseField<string>
         {
             element.isReadOnly = isReadOnly;
+            return element;
+        }
+
+        public static T SetValue<T>(this T element, string value)
+            where T : TextInputBaseField<string>
+        {
+            element.value = value;
             return element;
         }
     }
