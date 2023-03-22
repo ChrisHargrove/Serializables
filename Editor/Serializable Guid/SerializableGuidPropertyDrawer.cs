@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BatteryAcid.Serializables.Editor
 {
     [CustomPropertyDrawer(typeof(SerializableGuid))]
-    public class SerializableGuidPropertyDrawer : PropertyDrawer
+    internal sealed class SerializableGuidPropertyDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {

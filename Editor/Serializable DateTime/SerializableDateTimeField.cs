@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
 {
-    public class SerializableDateTimeField : VisualElement
+    internal sealed class SerializableDateTimeField : VisualElement
     {
         public SerializableDateTimeField(SerializedProperty property)
         {

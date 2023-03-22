@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
 {
-    internal class SerializableDateTimeCustomWindow : UnityEditor.EditorWindow
+    internal sealed class SerializableDateTimeCustomWindow : UnityEditor.EditorWindow
     {
         private const string InputQuery = "unity-text-input";
         private Color DefaultTopColor => new Color(0.05098039f, 0.05098039f, 0.05098039f);

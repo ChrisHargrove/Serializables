@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
 {
-    public class SerializableGuidField : VisualElement
+    internal sealed class SerializableGuidField : VisualElement
     {
         public SerializableGuidField(SerializedProperty property)
         {

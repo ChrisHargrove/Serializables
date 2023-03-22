@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace BatteryAcid.Serializables.Editor
 {
     [CustomPropertyDrawer(typeof(SerializableDateTime))]
-    public class SerializableDateTimePropertyDrawer : PropertyDrawer
+    internal sealed class SerializableDateTimePropertyDrawer : PropertyDrawer
     {
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
