@@ -9,6 +9,7 @@ namespace BatteryAcid.Serializables
     public class SerializableUri : ISerializationCallbackReceiver
     {
         private const string ExampleUri = "https://www.example.com";
+
         public SerializableUri()
             => uri = new Uri(ExampleUri);
 

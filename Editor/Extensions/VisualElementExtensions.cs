@@ -43,6 +43,30 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T SetMaxWidth<T>(this T element, float maxWidth)
+            where T : VisualElement
+        {
+            element.style.maxWidth = new StyleLength(maxWidth);
+            return element;
+        }
+
+        public static T SetPadding<T>(this T element, int top, int right, int bottom, int left)
+            where T : VisualElement
+        {
+            element.style.paddingTop = new StyleLength(top);
+            element.style.paddingRight = new StyleLength(right);
+            element.style.paddingBottom = new StyleLength(bottom);
+            element.style.paddingLeft = new StyleLength(left);
+            return element;
+        }
+
+        public static T SetPaddingLeft<T>(this T element, int left)
+            where T : VisualElement
+        {
+            element.style.paddingLeft = new StyleLength(left);
+            return element;
+        }
+
         public static T SetBorderColor<T>(this T element, Color color)
             where T : VisualElement
             => element.SetBorderColor(color, color, color, color);
@@ -85,10 +109,24 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T SetDelayed<T>(this T element, bool isDelayed)
+            where T : TextInputBaseField<string>
+        {
+            element.isDelayed = isDelayed;
+            return element;
+        }
+
         public static T SetOnValueChanged<T, V>(this T element, Action<V> onValueChanged)
             where T : INotifyValueChanged<V>
         {
             element.RegisterValueChangedCallback((evt) => onValueChanged?.Invoke(evt.newValue));
+            return element;
+        }
+
+        public static T SetOnGeometryChanged<T>(this T element, Action<GeometryChangedEvent> onGeometryChanged)
+            where T : VisualElement
+        {
+            element.RegisterCallback<GeometryChangedEvent>((evt) => onGeometryChanged?.Invoke(evt));
             return element;
         }
     }

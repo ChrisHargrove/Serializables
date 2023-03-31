@@ -168,8 +168,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testDate:
-    ticks: 638147502751177150
+    ticks: 618199812610000000
     kind: 2
+  testUri:
+    uriString: bindystreet://somerandomhost/my/path?arg=value&arg2=valueagain
+  testGuid:
+    guidString: dda4e5c7-a192-46d2-b742-0f57b9da422d
 --- !u!1 &1634969751
 GameObject:
   m_ObjectHideFlags: 0

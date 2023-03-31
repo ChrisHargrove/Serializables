@@ -12,20 +12,25 @@ namespace BatteryAcid.Serializables.Editor
             GuidProperty = property;
             GuidStringProperty = GuidProperty.FindPropertyRelative("guidString");
 
-            VisualElement topRow = new VisualElement()
+            TopRow = new VisualElement()
                 .FlexDirection(FlexDirection.Row)
-                .FlexGrow(true);
+                .FlexGrow(true)
+                .SetOnGeometryChanged(OnGuidFieldGeometryChanged);
 
             TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]$").Success ? "" : property.displayName)
                 .BindProp(GuidStringProperty)
                 .FlexGrow(true)
                 .SetReadOnly(true);
 
-            LockButton = new Button(LockButtonToggle)
-                .SetText("Unlock");
+            TextFieldLabel = TextField.Q<Label>();
+            TextFieldInput = TextField.Q("unity-text-input");
 
-            topRow.Add(TextField);
-            topRow.Add(LockButton);
+            LockButton = new Button(LockButtonToggle)
+                .SetText("Unlock")
+                .SetOnGeometryChanged(OnLockButtonGeometryChanged);
+
+            TopRow.Add(TextField);
+            TopRow.Add(LockButton);
 
             ButtonHolder = new VisualElement()
                 .FlexDirection(FlexDirection.Row)
@@ -43,7 +48,7 @@ namespace BatteryAcid.Serializables.Editor
             ButtonHolder.Add(GenerateGuidButton);
             ButtonHolder.Add(ClearGuidButton);
 
-            this.Add(topRow);
+            this.Add(TopRow);
             this.Add(ButtonHolder);
         }
 
@@ -55,6 +60,9 @@ namespace BatteryAcid.Serializables.Editor
         private Button ClearGuidButton { get; }
         private VisualElement ButtonHolder { get; }
         private TextField TextField { get; }
+        private Label TextFieldLabel { get; }
+        private VisualElement TextFieldInput { get; }
+        private VisualElement TopRow { get; }
 
         private void LockButtonToggle()
         {
@@ -71,6 +79,18 @@ namespace BatteryAcid.Serializables.Editor
         private void ClearGuid()
         {
             TextField.value = Guid.Empty.ToString();
+        }
+
+        private void OnLockButtonGeometryChanged(GeometryChangedEvent evt)
+        {
+            float maxWidth = TopRow.layout.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            TextFieldInput.SetMaxWidth(maxWidth);
+        }
+
+        private void OnGuidFieldGeometryChanged(GeometryChangedEvent evt)
+        {
+            float maxWidth = evt.newRect.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            TextFieldInput.SetMaxWidth(maxWidth);
         }
     }
 }
