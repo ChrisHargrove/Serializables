@@ -1,15 +1,11 @@
 using System.Text.RegularExpressions;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
 {
-    public class SerializableGuidField : VisualElement
+    internal sealed class SerializableGuidField : VisualElement
     {
         public SerializableGuidField(SerializedProperty property)
         {
@@ -63,7 +59,7 @@ namespace BatteryAcid.Serializables.Editor
         private void LockButtonToggle()
         {
             IsLocked = !IsLocked;
-            ButtonHolder.Display(IsLocked);
+            ButtonHolder.Display(!IsLocked);
             LockButton.SetText(IsLocked ? "Unlock" : "Lock");
         }
 

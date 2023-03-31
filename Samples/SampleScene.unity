@@ -167,12 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d9ea586742e4456b42a63367639b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  first:
-    guidString: 00000000-0000-0000-0000-000000000000
-  second:
-    guidString: 00000000-0000-0000-0000-000000000000
-  guids:
-  - guidString: f1df0fb5-7aec-4b20-adf7-8e8d0864c157
+  testDate:
+    ticks: 638147502751177150
+    kind: 2
 --- !u!1 &1634969751
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
@@ -35,6 +36,27 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T SetMinHeight<T>(this T element, float minHeight)
+            where T : VisualElement
+        {
+            element.style.minHeight = new StyleLength(minHeight);
+            return element;
+        }
+
+        public static T SetBorderColor<T>(this T element, Color color)
+            where T : VisualElement
+            => element.SetBorderColor(color, color, color, color);
+
+        public static T SetBorderColor<T>(this T element, Color top, Color right, Color bottom, Color left)
+            where T : VisualElement
+        {
+            element.style.borderLeftColor = new StyleColor(left);
+            element.style.borderTopColor = new StyleColor(top);
+            element.style.borderRightColor = new StyleColor(right);
+            element.style.borderBottomColor = new StyleColor(bottom);
+            return element;
+        }
+
         public static T BindProp<T>(this T element, SerializedProperty property)
             where T : IBindable
         {
@@ -53,6 +75,20 @@ namespace BatteryAcid.Serializables.Editor
             where T : TextInputBaseField<string>
         {
             element.isReadOnly = isReadOnly;
+            return element;
+        }
+
+        public static T SetValue<T>(this T element, string value)
+            where T : TextInputBaseField<string>
+        {
+            element.value = value;
+            return element;
+        }
+
+        public static T SetOnValueChanged<T, V>(this T element, Action<V> onValueChanged)
+            where T : INotifyValueChanged<V>
+        {
+            element.RegisterValueChangedCallback((evt) => onValueChanged?.Invoke(evt.newValue));
             return element;
         }
     }
