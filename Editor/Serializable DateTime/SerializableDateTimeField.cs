@@ -16,20 +16,25 @@ namespace BatteryAcid.Serializables.Editor
 
             DateTime = new DateTime(TicksProperty.longValue, (DateTimeKind)KindProperty.intValue);
 
-            VisualElement topRow = new VisualElement()
+            TopRow = new VisualElement()
                 .FlexDirection(FlexDirection.Row)
-                .FlexGrow(true);
+                .FlexGrow(true)
+                .SetOnGeometryChanged(OnDateTimeFieldGeometryChanged);
 
             TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]$").Success ? "" : property.displayName)
                 .FlexGrow(true)
                 .SetReadOnly(true)
                 .SetValue(DateTime.ToString());
 
-            LockButton = new Button(LockButtonToggle)
-                .SetText("Unlock");
+            TextFieldLabel = TextField.Q<Label>();
+            TextFieldInput = TextField.Q("unity-text-input");
 
-            topRow.Add(TextField);
-            topRow.Add(LockButton);
+            LockButton = new Button(LockButtonToggle)
+                .SetText("Unlock")
+                .SetOnGeometryChanged(OnLockButtonGeometryChanged);
+
+            TopRow.Add(TextField);
+            TopRow.Add(LockButton);
 
             ButtonHolder = new VisualElement()
                 .FlexDirection(FlexDirection.Row)
@@ -51,7 +56,7 @@ namespace BatteryAcid.Serializables.Editor
             ButtonHolder.Add(Now);
             ButtonHolder.Add(Custom);
 
-            this.Add(topRow);
+            this.Add(TopRow);
             this.Add(ButtonHolder);
         }
 
@@ -61,7 +66,10 @@ namespace BatteryAcid.Serializables.Editor
 
         private DateTime DateTime { get; set; }
 
+        private VisualElement TopRow { get; }
         private TextField TextField { get; }
+        private Label TextFieldLabel { get; }
+        private VisualElement TextFieldInput { get; }
         private VisualElement ButtonHolder { get; }
         private Button UtcNow { get; }
         private Button Now { get; }
@@ -109,6 +117,18 @@ namespace BatteryAcid.Serializables.Editor
             KindProperty.intValue = (int)DateTime.Kind;
             DateTimeProperty.serializedObject.ApplyModifiedProperties();
             TextField.SetValue(DateTime.ToString());
+        }
+
+        private void OnLockButtonGeometryChanged(GeometryChangedEvent evt)
+        {
+            float maxWidth = TopRow.layout.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            TextFieldInput.SetMaxWidth(maxWidth);
+        }
+
+        private void OnDateTimeFieldGeometryChanged(GeometryChangedEvent evt)
+        {
+            float maxWidth = evt.newRect.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            TextFieldInput.SetMaxWidth(maxWidth);
         }
     }
 }
