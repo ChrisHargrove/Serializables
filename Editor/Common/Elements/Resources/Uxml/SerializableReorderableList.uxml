@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/Common/Elements/Resources/Uss/SerializableReorderableList.uss?fileID=7433441132597879392&amp;guid=bc82cd1b845bf4d9b8b9ce3f088968b0&amp;type=3#SerializableReorderableList" />
+    <ui:VisualElement name="SerializableReorderableList" style="padding-top: 2px;">
+        <ui:VisualElement name="HeaderBar" class="header-bar" style="min-height: 16px;">
+            <ui:Label text="Test Float Stack" display-tooltip-when-elided="true" name="Title" style="display: flex;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ElementHolder" style="border-left-color: rgb(34, 34, 34); border-right-color: rgb(34, 34, 34); border-top-color: rgb(34, 34, 34); border-bottom-color: rgb(34, 34, 34); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; min-height: 5px; border-bottom-left-radius: 3px; background-color: rgb(65, 65, 65); border-bottom-right-radius: 3px;" />
+        <ui:VisualElement name="ControlBar" style="max-height: 23px; min-height: 23px; margin-right: 10px; flex-direction: row-reverse; display: flex;">
+            <ui:VisualElement name="ButtonHolder" style="flex-direction: row-reverse; position: absolute; top: -1px; background-color: rgb(65, 65, 65); border-left-color: rgb(34, 34, 34); border-right-color: rgb(34, 34, 34); border-top-color: rgb(65, 65, 65); border-bottom-color: rgb(34, 34, 34); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; padding-bottom: 2px; border-bottom-left-radius: 3px; border-bottom-right-radius: 3px;">
+                <ui:Button display-tooltip-when-elided="true" name="Clear" class="unity-button square-button" />
+                <ui:Button display-tooltip-when-elided="true" name="Remove" class="unity-button square-button" />
+                <ui:Button display-tooltip-when-elided="true" name="Add" class="unity-button square-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
