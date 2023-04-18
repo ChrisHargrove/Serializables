@@ -47,13 +47,11 @@ namespace BatteryAcid.Serializables.Editor
             Data.arraySize++;
             Data.serializedObject.ApplyModifiedProperties();
 
-            var prop = Data.GetArrayElementAtIndex(Data.arraySize - 1).FindPropertyRelative("Value");
-            var propField = new PropertyField()
+            SerializedProperty prop = Data.GetArrayElementAtIndex(Data.arraySize - 1).FindPropertyRelative("Value");
+            PropertyField propField = new PropertyField()
                 .BindProp(prop)
                 .SetLabel();
             Container.Add(propField);
-
-
         }
 
         private void ClearElements()
@@ -81,8 +79,8 @@ namespace BatteryAcid.Serializables.Editor
             Assert.IsTrue(Data.isArray);
             for (int i = 0; i < Data.arraySize; i++)
             {
-                var prop = Data.GetArrayElementAtIndex(i).FindPropertyRelative("Value");
-                var propField = new PropertyField(prop)
+                SerializedProperty prop = Data.GetArrayElementAtIndex(i).FindPropertyRelative("Value");
+                PropertyField propField = new PropertyField(prop)
                     .SetLabel();
                 Container.Add(propField);
             }
