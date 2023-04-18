@@ -168,12 +168,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testDate:
-    ticks: 618199812610000000
+    ticks: 638168864922219500
     kind: 2
   testUri:
-    uriString: bindystreet://somerandomhost/my/path?arg=value&arg2=valueagain
+    uriString: bindystreet://somerandomhost/my/path?arg=value&arg2=valueagain#thisismyfragment
   testGuid:
-    guidString: dda4e5c7-a192-46d2-b742-0f57b9da422d
+    guidString: 136b692b-5ce7-4368-ac4f-5b37aa6e8acb
+  testFloatStack:
+    values: []
+  testGuidStack:
+    values:
+    - Value:
+        guidString: 1c69674b-98af-4d0b-a7b3-094e86ee748f
 --- !u!1 &1634969751
 GameObject:
   m_ObjectHideFlags: 0
