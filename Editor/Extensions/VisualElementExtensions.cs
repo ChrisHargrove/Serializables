@@ -129,5 +129,12 @@ namespace BatteryAcid.Serializables.Editor
             element.RegisterCallback<GeometryChangedEvent>((evt) => onGeometryChanged?.Invoke(evt));
             return element;
         }
+
+        public static T SetLabel<T>(this T element, string label = "")
+            where T : PropertyField
+        {
+            element.label = label;
+            return element;
+        }
     }
 }
