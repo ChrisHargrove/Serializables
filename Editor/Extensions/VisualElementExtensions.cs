@@ -8,6 +8,34 @@ namespace BatteryAcid.Serializables.Editor
 {
     internal static class VisualElementExtensions
     {
+        public static T AddUssSheet<T>(this T element, StyleSheet styleSheet)
+            where T : VisualElement
+        {
+            element.styleSheets.Add(styleSheet);
+            return element;
+        }
+
+        public static T AddUssClass<T>(this T element, string className)
+            where T : VisualElement
+        {
+            element.AddToClassList(className);
+            return element;
+        }
+
+        public static T RemoveUssClass<T>(this T element, string className)
+            where T : VisualElement
+        {
+            element.RemoveFromClassList(className);
+            return element;
+        }
+
+        public static T AddChild<T>(this T element, VisualElement child)
+            where T : VisualElement
+        {
+            element.Add(child);
+            return element;
+        }
+
         public static T FlexGrow<T>(this T element, bool shouldGrow)
             where T : VisualElement
         {
@@ -29,6 +57,13 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T AlignItems<T>(this T element, Align align)
+            where T : VisualElement
+        {
+            element.style.alignItems = new StyleEnum<Align>(align);
+            return element;
+        }
+
         public static T Display<T>(this T element, bool isDisplaying)
             where T : VisualElement
         {
@@ -40,6 +75,20 @@ namespace BatteryAcid.Serializables.Editor
             where T : VisualElement
         {
             element.style.minHeight = new StyleLength(minHeight);
+            return element;
+        }
+
+        public static T SetMaxHeight<T>(this T element, float maxHeight)
+            where T : VisualElement
+        {
+            element.style.maxHeight = new StyleLength(maxHeight);
+            return element;
+        }
+
+        public static T SetMinWidth<T>(this T element, float minWidth)
+            where T : VisualElement
+        {
+            element.style.minWidth = new StyleLength(minWidth);
             return element;
         }
 
@@ -57,6 +106,16 @@ namespace BatteryAcid.Serializables.Editor
             element.style.paddingRight = new StyleLength(right);
             element.style.paddingBottom = new StyleLength(bottom);
             element.style.paddingLeft = new StyleLength(left);
+            return element;
+        }
+
+        public static T SetMargin<T>(this T element, int top, int right, int bottom, int left)
+            where T : VisualElement
+        {
+            element.style.marginTop = new StyleLength(top);
+            element.style.marginRight = new StyleLength(right);
+            element.style.marginBottom = new StyleLength(bottom);
+            element.style.marginLeft = new StyleLength(left);
             return element;
         }
 
@@ -81,9 +140,27 @@ namespace BatteryAcid.Serializables.Editor
             return element;
         }
 
+        public static T SetBorderRadius<T>(this T element, float radius)
+            where T : VisualElement
+        {
+            element.style.borderTopLeftRadius = new StyleLength(radius);
+            element.style.borderTopRightRadius = new StyleLength(radius);
+            element.style.borderBottomRightRadius = new StyleLength(radius);
+            element.style.borderBottomLeftRadius = new StyleLength(radius);
+            return element;
+        }
+
+        public static T SetBackgroundColor<T>(this T element, Color color)
+            where T : VisualElement
+        {
+            element.style.backgroundColor = new StyleColor(color);
+            return element;
+        }
+
         public static T BindProp<T>(this T element, SerializedProperty property)
             where T : IBindable
         {
+            element.bindingPath = property.propertyPath;
             element.BindProperty(property);
             return element;
         }
@@ -134,6 +211,47 @@ namespace BatteryAcid.Serializables.Editor
             where T : PropertyField
         {
             element.label = label;
+            return element;
+        }
+
+        public static T SetOnClicked<T>(this T element, Action onClicked)
+            where T : Button
+        {
+            element.clicked += onClicked;
+            return element;
+        }
+
+        public static T SetTooltip<T>(this T element, string tooltip)
+            where T : VisualElement
+        {
+            element.tooltip = tooltip;
+            return element;
+        }
+
+        public static T SetName<T>(this T element, string name)
+            where T : VisualElement
+        {
+            element.name = name;
+            return element;
+        }
+
+        public static T AssignTo<T>(this T element, ref T field)
+            where T : VisualElement
+        {
+            field = element;
+            return element;
+        }
+
+        public static Foldout SetText(this Foldout element, string text)
+        {
+            element.text = text;
+            return element;
+        }
+
+        public static T OnAttachToPanel<T>(this T element, EventCallback<AttachToPanelEvent> callback)
+            where T : VisualElement
+        {
+            element.RegisterCallback<AttachToPanelEvent>(callback);
             return element;
         }
     }

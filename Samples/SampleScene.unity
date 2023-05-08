@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -168,18 +168,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testDate:
-    ticks: 638168864922219500
-    kind: 2
+    ticks: 638188230078855230
+    kind: 1
   testUri:
     uriString: bindystreet://somerandomhost/my/path?arg=value&arg2=valueagain#thisismyfragment
   testGuid:
     guidString: 136b692b-5ce7-4368-ac4f-5b37aa6e8acb
+  Structure:
+    BigInt: 0
+    SuperString: 
+    Meh:
+      thing: 0
+      otherChar: 48
+  Meh:
+    thing: 0
+    otherChar: 49
   testFloatStack:
-    values: []
+    values:
+    - Value: 2
+    - Value: 2
+    - Value: 3
   testGuidStack:
     values:
     - Value:
-        guidString: 1c69674b-98af-4d0b-a7b3-094e86ee748f
+        guidString: 2ebd62fc-63e9-4774-9308-4f30dc6eddf3
+    - Value:
+        guidString: 554bf7a4-3562-4247-93b3-89192064f63d
+    - Value:
+        guidString: 2f1bc58f-3dbe-448e-90d8-f5f69314712d
+  testStructureStack:
+    values:
+    - Value:
+        BigInt: 0
+        SuperString: 
+        Meh:
+          thing: 0
+          otherChar: 109
+    - Value:
+        BigInt: 1
+        SuperString: 
+        Meh:
+          thing: 0
+          otherChar: 1
+    - Value:
+        BigInt: 1
+        SuperString: 
+        Meh:
+          thing: 0
+          otherChar: 1
 --- !u!1 &1634969751
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,9 +256,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

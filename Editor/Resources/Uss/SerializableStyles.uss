@@ -1,0 +1,169 @@
+.clear-icon {
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 1;
+    -unity-slice-bottom: 0;
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-image: resource('Icons/Clear');
+}
+
+.remove-icon {
+    background-image: resource('Icons/Minus');
+    -unity-slice-right: 1;
+}
+
+.add-icon {
+    background-image: resource('Icons/Plus');
+    -unity-slice-right: 1;
+}
+
+.square-button {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    max-width: 18px;
+    max-height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.header {
+    padding-left: 5px;
+    padding-right: 5px;
+    min-height: 16px;
+    background-color: rgb(53, 53, 53);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-left-color: rgb(36, 36, 36);
+    border-right-color: rgb(36, 36, 36);
+    border-top-color: rgb(36, 36, 36);
+    border-bottom-color: rgb(36, 36, 36);
+}
+
+.content {
+    border-left-color: rgb(34, 34, 34);
+    border-right-color: rgb(34, 34, 34);
+    border-top-color: rgb(34, 34, 34);
+    border-bottom-color: rgb(34, 34, 34);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    min-height: 5px;
+    border-bottom-left-radius: 3px;
+    background-color: rgb(65, 65, 65);
+    border-bottom-right-radius: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.reorderable-list {
+    padding-top: 2px;
+}
+
+.reorderable-list .wrapper {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: row;
+    align-self: auto;
+    min-height: 18px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.reorderable-list .handle {
+    max-height: 16px;
+    min-height: 16px;
+    max-width: 16px;
+    min-width: 16px;
+    background-image: resource('Icons/Drag');
+}
+
+.reorderable-list .selected {
+    background-color: rgb(89, 106, 116);
+}
+
+.reorderable-list .control-bar {
+    max-height: 23px;
+    min-height: 23px;
+    margin-right: 10px;
+    flex-direction: row-reverse;
+    display: flex;
+}
+
+.reorderable-list .button-holder {
+    flex-direction: row-reverse;
+    position: absolute;
+    top: -1px;
+    background-color: rgb(65, 65, 65);
+    border-left-color: rgb(34, 34, 34);
+    border-right-color: rgb(34, 34, 34);
+    border-top-color: rgb(65, 65, 65);
+    border-bottom-color: rgb(34, 34, 34);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    padding-bottom: 2px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.fallback-field {
+    border-left-color: rgb(36, 36, 36);
+    border-right-color: rgb(36, 36, 36);
+    border-top-color: rgb(36, 36, 36);
+    border-bottom-color: rgb(36, 36, 36);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: rgb(53, 53, 53);
+    margin-left: 2px;
+    padding-left: 5px;
+    padding-right: 6px;
+}
+
+.fallback-field .foldout {
+}
+
+.fallback-field-maximised {
+    border-left-color: rgb(36, 36, 36);
+    border-right-color: rgb(36, 36, 36);
+    border-top-color: rgb(36, 36, 36);
+    border-bottom-color: rgb(36, 36, 36);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: rgb(53, 53, 53);
+    margin-left: 2px;
+    padding-left: 5px;
+    padding-right: 6px;
+    padding-top: 2px;
+    padding-bottom: 4px;
+}

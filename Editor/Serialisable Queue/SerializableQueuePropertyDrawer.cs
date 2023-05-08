@@ -12,7 +12,7 @@ namespace BatteryAcid.Serializables.Editor
     public class SerializableQueuePropertyDrawer : PropertyDrawer
     {
         private SerializedProperty Values { get; set; }
-        private ReorderableList Reorderable { get; set; }
+        private UnityEditorInternal.ReorderableList Reorderable { get; set; }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -29,7 +29,7 @@ namespace BatteryAcid.Serializables.Editor
             Values = property.FindPropertyRelative("values");
             if (Reorderable == null)
             {
-                Reorderable = new ReorderableList(property.serializedObject, Values, true, true, true, true);
+                Reorderable = new UnityEditorInternal.ReorderableList(property.serializedObject, Values, true, true, true, true);
                 Reorderable.drawHeaderCallback = (Rect rect) => EditorGUI.LabelField(rect, label);
                 Reorderable.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
                 {
@@ -37,7 +37,7 @@ namespace BatteryAcid.Serializables.Editor
                     Rect betterRect = new Rect(rect.xMin, rect.yMin + 2.5f, rect.width, rect.height);
                     EditorGUI.PropertyField(betterRect, element, GUIContent.none, true);
                 };
-                Reorderable.onAddCallback = (ReorderableList list) => list.serializedProperty.arraySize++;
+                Reorderable.onAddCallback = (UnityEditorInternal.ReorderableList list) => list.serializedProperty.arraySize++;
                 Reorderable.elementHeightCallback = (int index) =>
                 {
                     SerializedProperty property = Values.GetArrayElementAtIndex(index).FindPropertyRelative("Value");

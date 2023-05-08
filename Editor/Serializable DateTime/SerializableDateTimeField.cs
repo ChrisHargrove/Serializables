@@ -21,7 +21,7 @@ namespace BatteryAcid.Serializables.Editor
                 .FlexGrow(true)
                 .SetOnGeometryChanged(OnDateTimeFieldGeometryChanged);
 
-            TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]$").Success ? "" : property.displayName)
+            TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]\\.Value$").Success ? "" : property.displayName)
                 .FlexGrow(true)
                 .SetReadOnly(true)
                 .SetValue(DateTime.ToString());
