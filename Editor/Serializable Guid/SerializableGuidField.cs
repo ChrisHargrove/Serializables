@@ -2,10 +2,11 @@ using System.Text.RegularExpressions;
 using System;
 using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace BatteryAcid.Serializables.Editor
 {
-    internal sealed class SerializableGuidField : VisualElement
+    internal class SerializableGuidField : VisualElement
     {
         public SerializableGuidField(SerializedProperty property)
         {
@@ -17,7 +18,7 @@ namespace BatteryAcid.Serializables.Editor
                 .FlexGrow(true)
                 .SetOnGeometryChanged(OnGuidFieldGeometryChanged);
 
-            TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]$").Success ? "" : property.displayName)
+            TextField = new TextField(Regex.Match(property.propertyPath, "data\\[[0-9]\\]\\.Value$").Success ? "" : property.displayName)
                 .BindProp(GuidStringProperty)
                 .FlexGrow(true)
                 .SetReadOnly(true);
@@ -83,13 +84,15 @@ namespace BatteryAcid.Serializables.Editor
 
         private void OnLockButtonGeometryChanged(GeometryChangedEvent evt)
         {
-            float maxWidth = TopRow.layout.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            float labelWidth = TextFieldLabel?.layout.width ?? 0;
+            float maxWidth = TopRow.layout.width - (labelWidth + LockButton.layout.width + 10);
             TextFieldInput.SetMaxWidth(maxWidth);
         }
 
         private void OnGuidFieldGeometryChanged(GeometryChangedEvent evt)
         {
-            float maxWidth = evt.newRect.width - (TextFieldLabel.layout.width + LockButton.layout.width + 10);
+            float labelWidth = TextFieldLabel?.layout.width ?? 0;
+            float maxWidth = evt.newRect.width - (labelWidth + LockButton.layout.width + 10);
             TextFieldInput.SetMaxWidth(maxWidth);
         }
     }
